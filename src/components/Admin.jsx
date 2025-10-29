@@ -52,6 +52,7 @@ const Admin = () => {
     price: 0,
     icon: '⭐',
   });
+  const [editingItemId, setEditingItemId] = useState(null);
 
   // Points Management
   const [playerBalances, setPlayerBalances] = useState({});
@@ -203,18 +204,31 @@ const Admin = () => {
       return;
     }
 
-    const item = {
-      id: Date.now(),
-      ...newItem,
-      price: parseInt(newItem.price),
-    };
-
     try {
-      await fetch(`${API_URL}/shop`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(item),
-      });
+      if (editingItemId) {
+        // Update existing item
+        await fetch(`${API_URL}/shop/${editingItemId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...newItem,
+            price: parseInt(newItem.price),
+          }),
+        });
+      } else {
+        // Create new item
+        const item = {
+          id: Date.now(),
+          ...newItem,
+          price: parseInt(newItem.price),
+        };
+
+        await fetch(`${API_URL}/shop`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(item),
+        });
+      }
 
       await loadShopItems();
       setNewItem({
@@ -225,10 +239,37 @@ const Admin = () => {
         price: 0,
         icon: '⭐',
       });
+      setEditingItemId(null);
     } catch (error) {
-      console.error('Error adding shop item:', error);
-      alert('Error adding shop item');
+      console.error('Error saving shop item:', error);
+      alert('Error saving shop item');
     }
+  };
+
+  const handleEditShopItem = (item) => {
+    setNewItem({
+      name: item.name,
+      type: item.type,
+      target: item.target,
+      description: item.description,
+      price: item.price,
+      icon: item.icon,
+    });
+    setEditingItemId(item.id);
+    // Scroll to top of page to show the form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCancelEdit = () => {
+    setNewItem({
+      name: '',
+      type: 'buff',
+      target: 'Any',
+      description: '',
+      price: 0,
+      icon: '⭐',
+    });
+    setEditingItemId(null);
   };
 
   const handleDeleteShopItem = async (id) => {
@@ -681,7 +722,12 @@ const Admin = () => {
         {/* Shop Management Tab */}
         {activeTab === 'shop' && (
           <div className="tab-content">
-            <h2>Add New Shop Item</h2>
+            <h2>{editingItemId ? 'Edit Shop Item' : 'Add New Shop Item'}</h2>
+            {editingItemId && (
+              <p style={{ color: '#4CAF50', marginBottom: '10px' }}>
+                Editing item - make your changes and click Save Changes
+              </p>
+            )}
             <div className="form-grid">
               <div className="form-group">
                 <label>Item Name</label>
@@ -745,9 +791,16 @@ const Admin = () => {
               </div>
             </div>
 
-            <button className="add-btn" onClick={handleAddShopItem}>
-              Add Shop Item
-            </button>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button className="add-btn" onClick={handleAddShopItem}>
+                {editingItemId ? 'Save Changes' : 'Add Shop Item'}
+              </button>
+              {editingItemId && (
+                <button className="delete-btn" onClick={handleCancelEdit}>
+                  Cancel Edit
+                </button>
+              )}
+            </div>
 
             <h2>Current Shop Items</h2>
             <div className="item-list">
@@ -759,9 +812,14 @@ const Admin = () => {
                     <p>{item.description}</p>
                     <span className="shop-price">{item.price} MVP points</span>
                   </div>
-                  <button className="delete-btn" onClick={() => handleDeleteShopItem(item.id)}>
-                    Delete
-                  </button>
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <button className="add-btn" onClick={() => handleEditShopItem(item)}>
+                      Edit
+                    </button>
+                    <button className="delete-btn" onClick={() => handleDeleteShopItem(item.id)}>
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

@@ -33,6 +33,34 @@ module.exports = async function (context, req) {
       return;
     }
 
+    // PUT - Update existing shop item
+    if (req.method === 'PUT' && id) {
+      const itemIndex = data.shopItems.findIndex(item => item.id === parseInt(id));
+      
+      if (itemIndex === -1) {
+        context.res = {
+          status: 404,
+          body: { error: 'Item not found' }
+        };
+        return;
+      }
+
+      // Update the item while preserving the original ID
+      data.shopItems[itemIndex] = {
+        ...req.body,
+        id: parseInt(id)
+      };
+      
+      await writeData(data);
+      
+      context.res = {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: { success: true, item: data.shopItems[itemIndex] }
+      };
+      return;
+    }
+
     // DELETE - Remove shop item by ID
     if (req.method === 'DELETE' && id) {
       data.shopItems = data.shopItems.filter(item => item.id !== parseInt(id));
