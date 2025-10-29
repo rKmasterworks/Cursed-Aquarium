@@ -16,6 +16,17 @@ module.exports = async function (context, req) {
       return;
     }
 
+    // GET - Get specific role balance
+    if (req.method === 'GET' && role) {
+      const balance = data.balances[role] !== undefined ? data.balances[role] : 0;
+      context.res = {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: { balance }
+      };
+      return;
+    }
+
     // PUT - Update role balance
     if (req.method === 'PUT' && role) {
       const { balance } = req.body;
