@@ -1,0 +1,129 @@
+.schedule-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.schedule-title {
+  font-size: 42px;
+  color: #ff9c00;
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(255, 156, 0, 0.5);
+}
+
+.welcome-text {
+  text-align: center;
+  color: #aaa;
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.schedule-card {
+  background: linear-gradient(135deg, rgba(26, 31, 58, 0.9) 0%, rgba(15, 20, 40, 0.9) 100%);
+  border: 2px solid #ff9c00;
+  border-radius: 15px;
+  padding: 25px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.schedule-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(255, 156, 0, 0.3);
+  border-color: #ffa826;
+}
+
+.schedule-header {
+  border-bottom: 2px solid #ff9c00;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.schedule-date {
+  font-size: 24px;
+  color: #ff9c00;
+  margin-bottom: 8px;
+}
+
+.schedule-time {
+  color: #aaa;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.schedule-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.schedule-agenda {
+  font-size: 20px;
+  color: #fff;
+  font-weight: 600;
+  background: rgba(255, 156, 0, 0.1);
+  padding: 10px 15px;
+  border-radius: 8px;
+  border-left: 4px solid #ff9c00;
+}
+
+.players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.player-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(255, 156, 0, 0.05);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.player-item:hover {
+  background: rgba(255, 156, 0, 0.1);
+  transform: translateX(5px);
+}
+
+.player-icon {
+  font-size: 20px;
+}
+
+.player-role {
+  color: #ff9c00;
+  font-weight: 600;
+  min-width: 80px;
+}
+
+.player-name {
+  color: #fff;
+  font-size: 16px;
+}
+
+.no-schedule {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .schedule-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-title {
+    font-size: 32px;
+  }
+}

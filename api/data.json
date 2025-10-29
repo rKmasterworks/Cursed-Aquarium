@@ -1,0 +1,38 @@
+{
+  "passwords": {
+    "tank": "Gand2024",
+    "main dps": "main dps",
+    "flex dps": "flex dps",
+    "main support": "main support",
+    "flex support": "flex support"
+  },
+  "permissions": {
+    "tank": false,
+    "flex dps": false,
+    "main support": true,
+    "flex support": false
+  },
+  "balances": {
+    "tank": 0,
+    "main dps": 0,
+    "flex dps": 0,
+    "main support": 0,
+    "flex support": 0
+  },
+  "roster": {
+    "tank": [
+      "APL Lun"
+    ],
+    "dps": [
+      "ʰˢ RK",
+      "SirPudding"
+    ],
+    "support": [
+      "ᵐˢ Aggi",
+      "HiPriestess"
+    ]
+  },
+  "schedule": [],
+  "shopItems": [],
+  "purchases": []
+}
